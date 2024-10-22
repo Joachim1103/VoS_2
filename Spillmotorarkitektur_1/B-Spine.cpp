@@ -1,27 +1,34 @@
+////sources
+//// Matematikk3_V24_VSIM101_H24 Document
+//// Assistance from ChatGPT
+//
 //#include <GLFW/glfw3.h>
 //#include <iostream>
 //#include <vector>
 //#include <cmath>
 //
-//// Define control points as specified in the provided document setup
-//std::vector<std::vector<GLfloat>> controlPoints = {
-//    { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f }, // First row
-//    { 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 2.0f, 2.0f, 1.0f, 2.0f, 3.0f, 1.0f, 0.0f }, // Second row
-//    { 0.0f, 2.0f, 0.0f, 1.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f, 3.0f, 2.0f, 0.0f }  // Third row
+//// Defining Control Points
+//std::vector<std::vector<GLfloat>> controlPoints = 
+//{
+//    { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f }, 
+//    { 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 2.0f, 2.0f, 1.0f, 2.0f, 3.0f, 1.0f, 0.0f }, 
+//    { 0.0f, 2.0f, 0.0f, 1.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f, 3.0f, 2.0f, 0.0f } 
 //};
 //
-//// Knot vector for u and v directions
+//// Knot Vector
 //GLfloat mu[] = { 0.0f, 0.0f, 0.0f, 1.0f, 2.0f, 2.0f, 2.0f };
 //GLfloat mv[] = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f };
 //
-//// Fixed rotation angles
+//// Fixed Rotation Angles
 //float rotationAngleX = -607.0f;
 //float rotationAngleY = 187.0f;
-//float cameraDistance = 6.0f; // Maintain standard distance
+//float cameraDistance = 6.0f;
 //
-//// B-spline basis function (quadratic)
-//float B(int i, int degree, float t, GLfloat* knots) {
-//    if (degree == 0) {
+//// B-spline Function
+//float B(int i, int degree, float t, GLfloat* knots) 
+//{
+//    if (degree == 0) 
+//    {
 //        return (t >= knots[i] && t < knots[i + 1]) ? 1.0f : 0.0f;
 //    }
 //    float leftDenom = knots[i + degree] - knots[i];
@@ -30,24 +37,29 @@
 //    float left = 0.0f;
 //    float right = 0.0f;
 //
-//    if (leftDenom != 0.0f) {
+//    if (leftDenom != 0.0f) 
+//    {
 //        left = (t - knots[i]) / leftDenom * B(i, degree - 1, t, knots);
 //    }
 //
-//    if (rightDenom != 0.0f) {
+//    if (rightDenom != 0.0f) 
+//    {
 //        right = (knots[i + degree + 1] - t) / rightDenom * B(i + 1, degree - 1, t, knots);
 //    }
 //
 //    return left + right;
 //}
 //
-//// Evaluate point on the B-spline surface
-//void evaluateBSplineSurface(float u, float v, float& x, float& y, float& z) {
+//// Evaluate Point on Surface
+//void evaluateBSplineSurface(float u, float v, float& x, float& y, float& z) 
+//{
 //    int du = 2, dv = 2;
 //    x = y = z = 0.0f;
 //
-//    for (int i = 0; i < 4; i++) {
-//        for (int j = 0; j < 3; j++) {
+//    for (int i = 0; i < 4; i++) 
+//    {
+//        for (int j = 0; j < 3; j++) 
+//        {
 //            float Bu = B(i, du, u, mu);
 //            float Bv = B(j, dv, v, mv);
 //            x += controlPoints[j][i * 3] * Bu * Bv;
@@ -57,12 +69,15 @@
 //    }
 //}
 //
-//// Render the B-Spline wireframe surface
-//void renderBSplineWireframe() {
+//// Render Wireframe
+//void renderBSplineWireframe() 
+//{
 //    float step = 0.05f;
 //    glBegin(GL_LINES);
-//    for (float u = 0.0f; u <= 2.0f; u += step) {
-//        for (float v = 0.0f; v <= 1.0f; v += step) {
+//    for (float u = 0.0f; u <= 2.0f; u += step) 
+//    {
+//        for (float v = 0.0f; v <= 1.0f; v += step) 
+//        {
 //            float x1, y1, z1, x2, y2, z2, x3, y3, z3;
 //            evaluateBSplineSurface(u, v, x1, y1, z1);
 //            evaluateBSplineSurface(u + step, v, x2, y2, z2);
@@ -78,8 +93,9 @@
 //    glEnd();
 //}
 //
-//// Setup orthographic projection for isometric view
-//void setupProjection(int width, int height) {
+//// Orthographic Projection for Isometric View
+//void setupProjection(int width, int height) 
+//{
 //    glViewport(0, 0, width, height);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
@@ -91,8 +107,9 @@
 //    glLoadIdentity();
 //}
 //
-//// Static camera setup with fixed rotation angles
-//void setupCamera() {
+//// Camera Setup
+//void setupCamera() 
+//{
 //    glLoadIdentity();
 //    glTranslatef(0.0f, 0.0f, -cameraDistance);
 //    glRotatef(rotationAngleX, 1.0f, 0.0f, 0.0f);
@@ -100,26 +117,30 @@
 //    glTranslatef(-1.5f, -1.0f, 0.0f);
 //}
 //
-//// OpenGL/GLFW setup
-//void setupOpenGL() {
-//    if (!glfwInit()) {
+//// OpenGL/GLFW Setup
+//void setupOpenGL() 
+//{
+//    if (!glfwInit()) 
+//    {
 //        std::cerr << "Failed to initialize GLFW" << std::endl;
 //        return;
 //    }
 //
-//    GLFWwindow* window = glfwCreateWindow(1920, 1080, "Static Wireframe View", NULL, NULL);
-//    if (!window) {
+//    GLFWwindow* window = glfwCreateWindow(1920, 1080, "Wireframe Render", NULL, NULL);
+//    if (!window) 
+//    {
 //        std::cerr << "Failed to create GLFW window" << std::endl;
 //        glfwTerminate();
 //        return;
 //    }
 //
 //    glfwMakeContextCurrent(window);
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe mode
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 //
 //    setupProjection(1920, 1080);
 //
-//    while (!glfwWindowShouldClose(window)) {
+//    while (!glfwWindowShouldClose(window)) 
+//    {
 //        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //        setupCamera();
 //        renderBSplineWireframe();
@@ -130,7 +151,8 @@
 //    glfwTerminate();
 //}
 //
-//int main() {
+//int main() 
+//{
 //    setupOpenGL();
 //    return 0;
 //}
