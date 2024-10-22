@@ -168,7 +168,7 @@ void setupOpenGL(const std::vector<Point>& points)
 
     glfwMakeContextCurrent(window);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glPointSize(3.0f);
+    glPointSize(0.5f);
     glEnable(GL_DEPTH_TEST);
 
     setupCamera();
